@@ -1,0 +1,35 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.10.2'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '1.5.4.RELEASE'
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.5.4.RELEASE'
+
+	compile 'org.springframework:spring-context-support'
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb')
+	compile('com.fasterxml.jackson.core:jackson-core:2.8.8')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.hibernate:hibernate-validator:5.4.1.Final')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}

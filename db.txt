@@ -1,0 +1,14 @@
+> use apbfrance
+switched to db apbfrance
+> db.createUser(
+... {
+... user: "apbUser",
+... pwd: "apb123",
+... roles: [ "readWrite", "dbAdmin" ]
+... }
+... )
+Successfully added user: { "user" : "apbUser", "roles" : [ "readWrite", "dbAdmin" ] }
+
+mongo-express -u apbUser -p apb123 -d apbfrance
+
+http://localhost:8081
