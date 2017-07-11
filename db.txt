@@ -9,6 +9,8 @@ switched to db apbfrance
 ... )
 Successfully added user: { "user" : "apbUser", "roles" : [ "readWrite", "dbAdmin" ] }
 
+
+mongod --dbpath C:/MongoDB/data/db
 mongo-express -u apbUser -p apb123 -d apbfrance
 
 http://localhost:8081

@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -105,13 +107,26 @@ public class ApbfranceApplicationTests {
 
 
     @Test
-    public void sendEmail(){
+    public void sendEmail() {
+
+        List<String> emails = new ArrayList<>();
+        emails.add("matius1matius@gmail.com");
+
         List<Car> carList = apbComparator.checkAPBNewCars();
 
-        for (Car car: carList) {
-            emailController.sendCar(car);
+        for (Car car : carList)
+            emailController.sendCar(car, emails);
 
-        }
+    }
+
+    @Test
+    public void sendEmailHealth() {
+
+        List<String> emails = new ArrayList<>();
+        emails.add("matius1matius@gmail.com");
+
+        emailController.sendHealth(emails);
+
     }
 
 

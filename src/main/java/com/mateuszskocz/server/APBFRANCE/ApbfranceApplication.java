@@ -10,8 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @Configuration
 @ComponentScan
-//@EnableScheduling
-//@EnableEmailTools
+@EnableScheduling
 public class ApbfranceApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
@@ -20,6 +19,6 @@ public class ApbfranceApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("\nDziala jak zloto\n");
+
     }
 }

@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
  * Created by Mati on 10.07.2017.
  */
 @Service
-public class EmailSender implements EmailSenderInterface{
+public class EmailSender implements EmailSenderInterface {
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -24,8 +24,8 @@ public class EmailSender implements EmailSenderInterface{
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
             helper.setTo(to);
-            helper.setReplyTo("newsletter@codecouple.pl");
-            helper.setFrom("newsletter@codecouple.pl");
+            helper.setReplyTo("sprawdzamauta@gmail.com");
+            helper.setFrom("sprawdzamauta@gmail.com");
             helper.setSubject(title);
             helper.setText(content, true);
 

@@ -6,6 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 //http://codecouple.pl/2016/09/30/8-spring-boot-email-szablon-i-wysylanie/
 
 /**
@@ -24,26 +30,21 @@ public class EmailController {
         this.templateEngine = templateEngine;
     }
 
-    @RequestMapping("/")
-    public String send() {
+    public String sendHealth(List<String> recipientEmail) {
         Context context = new Context();
-        context.setVariable("header", "Nowe auto na APBFRANCE");
-        context.setVariable("model", "Polo");
-        context.setVariable("rok", "1999");
-        context.setVariable("cena", "2000 $");
-        context.setVariable("paliwo", "Diesel");
-        context.setVariable("przebieg", "999 999 km");
-        context.setVariable("stan", "Dobry stan");
-        context.setVariable("title", "#8 Spring Boot – email - szablon i wysyłanie");
+        context.setVariable("header", "System działa - " + LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")) + " " + LocalDate.now());
+        String body = templateEngine.process("health", context);
 
-        String body = templateEngine.process("template", context);
-        emailSender.sendEmail("matius1matius@gmail.com", "EMAIL TEST", body);
+        for (String email : recipientEmail)
+            emailSender.sendEmail(email, "Informacja o systemie", body);
+
         return "index";
     }
 
-    public String sendCar(Car car) {
+
+    public String sendCar(Car car, List<String> recipientEmail) {
         Context context = new Context();
-        context.setVariable("header", "Nowe auto na APBFRANCE");
+        context.setVariable("header", "Nowe auto na APBFRANCE - " + LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")) + " " + LocalDate.now());
         context.setVariable("model", car.getModel());
         context.setVariable("rok", car.getRok());
         context.setVariable("cena", car.getCena());
@@ -52,8 +53,14 @@ public class EmailController {
         context.setVariable("stan", car.getCategory());
         context.setVariable("title", car.getModel() + ", " + car.getEnergy() + ", " + car.getRok() + ", " + car.getCena());
 
-        String body = templateEngine.process("template", context);
-        emailSender.sendEmail("matius1matius@gmail.com", "Nowe auto na APBFRANCE - ", body);
+        String category = car.getCategory().equals("Dobry Stan") ? "used" : "damaged";
+
+        context.setVariable("url", "http://www.apbfrance.com/catalog/" + category + "/" + car.getId());
+
+        String body = templateEngine.process("new_car_apb_template", context);
+        for (String email : recipientEmail)
+            emailSender.sendEmail(email, "Nowe auto na APBFRANCE - ", body);
+
         return "index";
     }
 }

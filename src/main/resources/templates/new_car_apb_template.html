@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:remove="all">CodeCouple Newsletter</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <style type="text/css">
+   h1 {font-size: 16px; color: #444444 !important; font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif; line-height: 1.5;}
+   h2 {font-size: 14px; color: #444444 !important; font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif;}
+   p {font-size: 16px; color: #ffffff; font-family: "Lucida Grande", "Lucida Sans", "Lucida Sans Unicode", sans-serif; line-height: 1.5;}
+    table { border: 1px solid #e4e4e4;}
+    a {color: #ffffff; text-decoration:underline; font-weight: bold;}
+    </style>
+</head>
+<body>
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="0095cc">
+    <tr>
+        <td height="50" align="center"><p th:text="${header}">header</p></td>
+    </tr>
+    <tr bgcolor="ffffff">
+        <td height="50" align="center"><h1>Model:</h1><h2 th:text="${model}">model</h2></td>
+    </tr>
+    <tr bgcolor="ffffff">
+        <td height="50" align="center"><h1>Rok:</h1><h2 th:text="${rok}">rok</h2></td>
+    </tr>
+    <tr bgcolor="ffffff">
+        <td align="center"><h1>Cena:</h1><h2 th:text="${cena}">cena</h2></td>
+    </tr>
+    <tr bgcolor="ffffff">
+        <td height="100" align="center"><h1>Paliwo:</h1><h2 th:text="${paliwo}">paliwo</h2></td>
+    </tr>
+    <tr bgcolor="ffffff">
+        <td height="50" align="center"><h1>Przebieg:</h1><h2 th:text="${przebieg}">przebieg</h2></td>
+    </tr>
+    <tr bgcolor="ffffff">
+        <td height="50" align="center"><h1>Stan:</h1><h2 th:text="${stan}">Stan</h2></td>
+    </tr>
+    <tr>
+        <td height="50" align="center"><p><a th:href="${url}">Link do ogloszenia</a></p></td>
+    </tr>
+</table>
+</body>
+</html>

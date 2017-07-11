@@ -5,42 +5,60 @@ package com.mateuszskocz.server.APBFRANCE.scheduler;
  */
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.mateuszskocz.server.APBFRANCE.comparator.ApbInterface;
+import com.mateuszskocz.server.APBFRANCE.domain.Car;
+import com.mateuszskocz.server.APBFRANCE.emailSender.EmailController;
 import com.mateuszskocz.server.APBFRANCE.pageReader.ApbFrancePageReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ScheduledTasks {
 
-    private final ApbFrancePageReader apbFrancePageReader;
+    @Autowired
+    private ApbFrancePageReader apbFrancePageReader;
 
+    @Autowired
+    private ApbInterface apbComparator;
+
+    @Autowired
+    private EmailController emailController;
 
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
-
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    public ScheduledTasks(ApbFrancePageReader apbFrancePageReader) {
-        this.apbFrancePageReader = apbFrancePageReader;
+    @Scheduled(fixedRate = 600000)
+    public void checkCarsAPBAndSendEmail() {
+        List<String> emails = new ArrayList<>();
+        emails.add("matius1matius@gmail.com");
+
+        List<Car> carList = apbComparator.checkAPBNewCars();
+
+        try {
+            for (Car car : carList)
+                emailController.sendCar(car, emails);
+        } catch (Exception e) {
+            System.err.println("Wystapil blad podczas sprawdzania aut \n" + e.getStackTrace());
+        }
+
     }
 
-//    @Scheduled(fixedRate = 5000)
-//    public void reportCurrentTime() {
-//        log.info("The time is now {}", dateFormat.format(new Date()));
-//    }
-
-
-    @Scheduled(fixedRate = 5000)
-    public void checkCarsUsed() {
-        log.info("The time is now {}", dateFormat.format(new Date()));
-        apbFrancePageReader
-                .getCarsUsed()
-                .stream()
-                .forEach(System.out::println);
-
-        System.out.println("\n\n\n\n\n");
+    @Scheduled(cron = "0 0 20 * * ?")
+    public void sendHealthInfo() {
+        List<String> emails = new ArrayList<>();
+        emails.add("matius1matius@gmail.com");
+        try {
+            emailController.sendHealth(emails);
+        } catch (Exception e) {
+            System.err.println("Wystapil blad podczas wysylania statusu o aplikacji \n" + e.getStackTrace());
+        }
     }
+
+
 }

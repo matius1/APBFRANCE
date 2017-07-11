@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Mati on 10.07.2017.
  */
 @Service
-public class ApbComparator implements ComparatorInterface {
+public class ApbComparator implements ComparatorInterface, ApbInterface {
 
     private final CarService carService;
     private final ApbFrancePageReader apbFrancePageReader;
@@ -34,33 +34,31 @@ public class ApbComparator implements ComparatorInterface {
         if (result == null)
             return false;
 
-        if (result.getModel().equals(null))
-            return false;
-        else
-            return true;
+        return !result.getModel().equals(null);
     }
 
+    @Override
     public List<Car> checkAPBNewCars() {
 
         int newCars = 0;
         List<Car> carList = new ArrayList<>();
-        List<Car> carListUsed = apbFrancePageReader.getCarsUsed();
+        List<Car> carListUsed = ApbFrancePageReader.getCarsUsed();
 
         for (Car car : carListUsed) {
             if (!checkInDB(car.getId())) {
                 carService.create(car);
-                System.out.println("Nowe Auto: " + car);
+//                System.out.println("Nowe Auto: " + car);
                 newCars++;
                 carList.add(car);
             }
         }
 
-        List<Car> carListDamaged = apbFrancePageReader.getCarsDamaged();
+        List<Car> carListDamaged = ApbFrancePageReader.getCarsDamaged();
 
         for (Car car : carListDamaged) {
             if (!checkInDB(car.getId())) {
                 carService.create(car);
-                System.out.println("Nowe Auto: " + car);
+//                System.out.println("Nowe Auto: " + car);
                 newCars++;
                 carList.add(car);
 
