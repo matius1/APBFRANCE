@@ -111,6 +111,7 @@ public class ApbfranceApplicationTests {
 
         List<String> emails = new ArrayList<>();
         emails.add("matius1matius@gmail.com");
+        emails.add("wasekbasia@wp.pl");
 
         List<Car> carList = apbComparator.checkAPBNewCars();
 
@@ -124,6 +125,7 @@ public class ApbfranceApplicationTests {
 
         List<String> emails = new ArrayList<>();
         emails.add("matius1matius@gmail.com");
+        emails.add("wasekbasia@wp.pl");
 
         emailController.sendHealth(emails);
 

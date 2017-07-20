@@ -61,7 +61,6 @@ public class ApbComparator implements ComparatorInterface, ApbInterface {
 //                System.out.println("Nowe Auto: " + car);
                 newCars++;
                 carList.add(car);
-
             }
         }
 

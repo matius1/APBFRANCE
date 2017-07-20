@@ -33,10 +33,14 @@ public class ScheduledTasks {
     private static final Logger log = LoggerFactory.getLogger(ScheduledTasks.class);
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-    @Scheduled(fixedRate = 600000)
+    @Scheduled(fixedRate = 120000)
     public void checkCarsAPBAndSendEmail() {
+        System.err.println("Wysylam informacje o nowych samochodach");
+
         List<String> emails = new ArrayList<>();
         emails.add("matius1matius@gmail.com");
+        emails.add("wasekbasia@wp.pl");
+
 
         List<Car> carList = apbComparator.checkAPBNewCars();
 
@@ -45,18 +49,23 @@ public class ScheduledTasks {
                 emailController.sendCar(car, emails);
         } catch (Exception e) {
             System.err.println("Wystapil blad podczas sprawdzania aut \n" + e.getStackTrace());
+            e.printStackTrace();
         }
 
     }
 
-    @Scheduled(cron = "0 0 20 * * ?")
+    @Scheduled(cron = "0 30 17 * * ?")
     public void sendHealthInfo() {
+        System.err.println("Wysylam informacje o systemie");
         List<String> emails = new ArrayList<>();
         emails.add("matius1matius@gmail.com");
+        emails.add("wasekbasia@wp.pl");
+
         try {
             emailController.sendHealth(emails);
         } catch (Exception e) {
             System.err.println("Wystapil blad podczas wysylania statusu o aplikacji \n" + e.getStackTrace());
+            e.printStackTrace();
         }
     }
 
