@@ -2,6 +2,7 @@ package com.mateuszskocz.server.APBFRANCE.comparator;
 
 import com.mateuszskocz.server.APBFRANCE.domain.Car;
 import com.mateuszskocz.server.APBFRANCE.pageReader.ApbFrancePageReader;
+import com.mateuszskocz.server.APBFRANCE.pageReader.otoMotoPageReader;
 import com.mateuszskocz.server.APBFRANCE.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,14 @@ public class ApbComparator implements ComparatorInterface, ApbInterface {
 
     private final CarService carService;
     private final ApbFrancePageReader apbFrancePageReader;
-
+    private final otoMotoPageReader otoMotoPageReader;
 
     @Autowired
-    public ApbComparator(CarService carService, ApbFrancePageReader apbFrancePageReader) {
+    public ApbComparator(CarService carService, ApbFrancePageReader apbFrancePageReader, com.mateuszskocz.server.APBFRANCE.pageReader.otoMotoPageReader otoMotoPageReader) {
         this.carService = carService;
         this.apbFrancePageReader = apbFrancePageReader;
+        this.otoMotoPageReader = otoMotoPageReader;
     }
-
 
     @Override
     public Boolean checkInDB(String id) {
@@ -42,23 +43,30 @@ public class ApbComparator implements ComparatorInterface, ApbInterface {
 
         int newCars = 0;
         List<Car> carList = new ArrayList<>();
-        List<Car> carListUsed = ApbFrancePageReader.getCarsUsed();
 
+        List<Car> carListUsed = ApbFrancePageReader.getCarsUsed();
         for (Car car : carListUsed) {
             if (!checkInDB(car.getId())) {
                 carService.create(car);
-//                System.out.println("Nowe Auto: " + car);
                 newCars++;
                 carList.add(car);
             }
         }
 
         List<Car> carListDamaged = ApbFrancePageReader.getCarsDamaged();
-
         for (Car car : carListDamaged) {
             if (!checkInDB(car.getId())) {
                 carService.create(car);
-//                System.out.println("Nowe Auto: " + car);
+                newCars++;
+                carList.add(car);
+            }
+        }
+
+        System.out.println("OTOMOTO apbcomparator: ");
+        List<Car> carListOtoMoto = otoMotoPageReader.getCarsUsed();
+        for (Car car : carListOtoMoto) {
+            if (!checkInDB(car.getId())) {
+                carService.create(car);
                 newCars++;
                 carList.add(car);
             }
@@ -66,5 +74,6 @@ public class ApbComparator implements ComparatorInterface, ApbInterface {
 
         return carList;
     }
+
 
 }

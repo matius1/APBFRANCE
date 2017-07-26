@@ -32,7 +32,7 @@ public class EmailController {
 
     public String sendHealth(List<String> recipientEmail) {
         Context context = new Context();
-        context.setVariable("header", "System działa - " + LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm")) + " " + LocalDate.now());
+        context.setVariable("header", "System działa - " + LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) + " " + LocalDate.now());
         String body = templateEngine.process("health", context);
 
         for (String email : recipientEmail)
@@ -53,9 +53,21 @@ public class EmailController {
         context.setVariable("stan", car.getCategory());
         context.setVariable("title", car.getModel() + ", " + car.getEnergy() + ", " + car.getRok() + ", " + car.getCena());
 
-        String category = car.getCategory().equals("Dobry Stan") ? "used" : "damaged";
+        String category = " ";
+        if(!car.getCategory().isEmpty()){
+            if(car.getCategory().equals("Dobry Stan")){
+                category = "used";
+            }else{
+                category = "damaged";
+            }
+        }
 
-        context.setVariable("url", "http://www.apbfrance.com/catalog/" + category + "/" + car.getId());
+        if(car.getCategory().equals("Uzywany - OtoMoto")){
+            context.setVariable("url", car.getLink());
+        }else{
+            context.setVariable("url", "http://www.apbfrance.com/catalog/" + category + "/" + car.getId());
+        }
+
 
         String body = templateEngine.process("new_car_apb_template", context);
         for (String email : recipientEmail)

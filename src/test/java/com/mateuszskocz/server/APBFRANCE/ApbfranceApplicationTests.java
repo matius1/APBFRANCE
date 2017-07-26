@@ -3,8 +3,10 @@ package com.mateuszskocz.server.APBFRANCE;
 import com.mateuszskocz.server.APBFRANCE.comparator.ApbComparator;
 import com.mateuszskocz.server.APBFRANCE.comparator.ComparatorInterface;
 import com.mateuszskocz.server.APBFRANCE.domain.Car;
+import com.mateuszskocz.server.APBFRANCE.domain.Recipient;
 import com.mateuszskocz.server.APBFRANCE.emailSender.EmailController;
 import com.mateuszskocz.server.APBFRANCE.repository.CarRepository;
+import com.mateuszskocz.server.APBFRANCE.repository.RecipientRepository;
 import com.mateuszskocz.server.APBFRANCE.service.CarService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +35,9 @@ public class ApbfranceApplicationTests {
     @Autowired
     private EmailController emailController;
 
-    @Test
-    public void contextLoads() {
-    }
+    @Autowired
+    private RecipientRepository recipientRepository;
+
 
     @Test
     public void testCreateCar() {
@@ -106,30 +108,74 @@ public class ApbfranceApplicationTests {
     }
 
 
+//    @Test
+//    public void sendEmail() {
+//
+//        List<String> emails = new ArrayList<>();
+//        emails.add("matius1matius@gmail.com");
+////        emails.add("wasekbasia@wp.pl");
+//
+//        List<Car> carList = apbComparator.checkAPBNewCars();
+//
+//        for (Car car : carList)
+//            emailController.sendCar(car, emails);
+//
+//    }
+
+//    @Test
+//    public void sendEmailHealth() {
+//
+//        List<String> emails = new ArrayList<>();
+//        emails.add("matius1matius@gmail.com");
+////        emails.add("wasekbasia@wp.pl");
+//
+//        emailController.sendHealth(emails);
+//
+//    }
+
+//
     @Test
-    public void sendEmail() {
+    public void addEmailAndSend() {
+//        Recipient recipient = new Recipient();
+//        recipient.setEmail("matius1matius@gmail.com");
+//        recipientRepository.save(recipient);
+//        recipient.setEmail("wasekbasia@wp.pl");
+//        recipientRepository.save(recipient);
 
-        List<String> emails = new ArrayList<>();
-        emails.add("matius1matius@gmail.com");
-        emails.add("wasekbasia@wp.pl");
+        List<Recipient> recipientList = recipientRepository.findAll();
+        List<String> emailList = new ArrayList<>();
+        for (Recipient rec : recipientList) {
+            emailList.add(rec.getEmail());
+        }
 
-        List<Car> carList = apbComparator.checkAPBNewCars();
-
-        for (Car car : carList)
-            emailController.sendCar(car, emails);
-
+        emailController.sendHealth(emailList);
     }
 
-    @Test
-    public void sendEmailHealth() {
 
-        List<String> emails = new ArrayList<>();
-        emails.add("matius1matius@gmail.com");
-        emails.add("wasekbasia@wp.pl");
-
-        emailController.sendHealth(emails);
-
-    }
+//    @Test
+//    public void readOtoMoto(){
+//        System.err.println("Wysylam informacje o nowych samochodach");
+//
+//        List<Recipient> recipientList = recipientRepository.findAll();
+//        List<String> emailList = new ArrayList<>();
+//        for (Recipient rec : recipientList) {
+//            emailList.add(rec.getEmail());
+//        }
+//
+//        List<Car> carList = apbComparator.checkAPBNewCars();
+//
+//        try {
+//            for (Car car : carList){
+//                System.out.println(car);
+//                emailController.sendCar(car, emailList);
+//            }
+//        } catch (Exception e) {
+//            System.err.println("Wystapil blad podczas sprawdzania aut - ReadOtoMoto from SendCar" );
+//            e.printStackTrace();
+//            System.err.println("\n\n" );
+//
+//        }
+//    }
 
 
 }
